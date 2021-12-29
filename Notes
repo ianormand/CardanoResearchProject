@@ -1,0 +1,12 @@
+
+csv has 363 dates
+
+matplotlib visual for x = time, y1 = predictions (red), y2 = nxt close (white)
+
+
+mean average accuracy ranging from 89-95%
+average range fom 8-17%
+
+
+
+
