@@ -1,0 +1,7 @@
+The first 30 trials will be taken for data
+
+
+
+Average Miss: 5.515074422697438
+Mean Absolute Error (MAE): 94.48492557730256
+Average daily range: 9.109770597656613

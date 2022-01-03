@@ -1,3 +1,4 @@
+from os import write
 import numpy as np
 import pandas as pd
 from sklearn import linear_model
@@ -78,14 +79,22 @@ for i in range(len(missPercents)):
     allMisses = missPercents[i] + allMisses
     allRanges = day_range_percents[i] + allRanges
 
-
-print("\naverage miss", (allMisses / len(predictions)) * 100, '%')
+average_miss = (allMisses / len(predictions)) * 100
+print("\naverage miss", average_miss, '%')
 # mean absolute error
-print("Mean Absolute Error (MAE): ", (100 - allMisses / len(predictions) * 100), '%', '\n')
+mean_absolute_error_percentage = (100 - allMisses / len(predictions) * 100)
+print("Mean Absolute Error (MAE): ", mean_absolute_error_percentage, '%', '\n')
 
 sum_daily_ranges = allRanges / len(day_range_percents)
 print(f'Average daily range: {sum_daily_ranges}\n')
 
+with open('first30.txt', 'a') as f:
+    writeline_averages = '\nAverage Miss: {}\nMean Absolute Error (MAE): {}\nAverage daily range: {}'
+    f.writelines(writeline_averages.format(average_miss, mean_absolute_error_percentage, sum_daily_ranges))
+    # f.writelines('\nAverage Miss: ', average_miss)
+    # f.writelines("\nMean Absolute Error (MAE): ", mean_absolute_error_percentage, '%')
+    # f.writelines('\nAverage daily range: ', sum_daily_ranges)
+        
 
 while True:
     graph_input = input("See prediction/close(enter p) graph or year data graph(enter e): ")
