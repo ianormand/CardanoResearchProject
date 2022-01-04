@@ -1,9 +1,11 @@
 from os import write
+from csv import writer
 import numpy as np
 import pandas as pd
 from sklearn import linear_model
 import sklearn
 import matplotlib.pyplot as plt
+import csv
 
 # data taken from yahoo finance. 10/14/2020 through 10/11/2021
 data = pd.read_csv(r"C:\Users\ianor\Downloads\ADA-USD.csv")
@@ -88,13 +90,22 @@ print("Mean Absolute Error (MAE): ", mean_absolute_error_percentage, '%', '\n')
 sum_daily_ranges = allRanges / len(day_range_percents)
 print(f'Average daily range: {sum_daily_ranges}\n')
 
-with open('first30.txt', 'a') as f:
-    writeline_averages = '\nAverage Miss: {}\nMean Absolute Error (MAE): {}\nAverage daily range: {}'
-    f.writelines(writeline_averages.format(average_miss, mean_absolute_error_percentage, sum_daily_ranges))
-    # f.writelines('\nAverage Miss: ', average_miss)
-    # f.writelines("\nMean Absolute Error (MAE): ", mean_absolute_error_percentage, '%')
-    # f.writelines('\nAverage daily range: ', sum_daily_ranges)
-        
+
+header = ['Average Miss', 'Mean Absolute Error (MAE)', 'Average daily range']
+with open('filtered_data.csv', 'a', newline='') as f:
+    writer = csv.writer(f)
+
+    #writer.writerow(header)
+
+    # write the data
+    csv_data = [average_miss, mean_absolute_error_percentage, sum_daily_ranges]
+    writer.writerow(csv_data)
+
+df2=pd.read_csv('filtered_data.csv')
+print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]))
+print("average of ALL Mean Absolute Errors: ", df2['Mean Absolute Error (MAE)'].sum() / len(df2['Mean Absolute Error (MAE)']))
+print("average of ALL Average Daily Ranges: ", df2['Average daily range'].sum() / len(df2['Average daily range']))
+
 
 while True:
     graph_input = input("See prediction/close(enter p) graph or year data graph(enter e): ")
