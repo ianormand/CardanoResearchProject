@@ -102,9 +102,9 @@ with open('filtered_data.csv', 'a', newline='') as f:
     writer.writerow(csv_data)
 
 df2=pd.read_csv('filtered_data.csv')
-print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]))
-print("average of ALL Mean Absolute Errors: ", df2['Mean Absolute Error (MAE)'].sum() / len(df2['Mean Absolute Error (MAE)']))
-print("average of ALL Average Daily Ranges: ", df2['Average daily range'].sum() / len(df2['Average daily range']))
+print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]), "%")
+print("average of ALL Mean Absolute Errors: ", df2['Mean Absolute Error (MAE)'].sum() / len(df2['Mean Absolute Error (MAE)']), "%")
+print("average of ALL Average Daily Ranges: ", df2['Average daily range'].sum() / len(df2['Average daily range']), "%")
 
 
 while True:
