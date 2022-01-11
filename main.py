@@ -117,6 +117,12 @@ while True:
         fig = plt.figure()
         ax = plt.axes()
 
+        plt.title("Red = Machine Learning Model's Predictions; Blue = Real Time Prices")
+
+        plt.xlabel("Time (Days)")
+        plt.ylabel("Price (USD)")
+
+
         list37 = []
 
         # print(data[date[-37:]])
@@ -139,6 +145,11 @@ while True:
 
         fig = plt.figure()
         ax = plt.axes()
+
+        plt.title("Unproccessed Input Data (364 days)")
+
+        plt.xlabel("Time (Days)")
+        plt.ylabel("Price (USD)")
 
         x = np.array(data[date])
         y = np.array(data[predict])
