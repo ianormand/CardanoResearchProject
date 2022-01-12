@@ -6,6 +6,7 @@ from sklearn import linear_model
 import sklearn
 import matplotlib.pyplot as plt
 import csv
+from sklearn.metrics import r2_score
 
 # data taken from yahoo finance. 10/14/2020 through 10/11/2021
 data = pd.read_csv(r"C:\Users\ianor\Downloads\ADA-USD.csv")
@@ -33,10 +34,9 @@ linear = linear_model.LinearRegression()
 print(linear)
 
 linear.fit(X_train, Y_train)
-# accuracy is calculated with .score() which finds the coefficient of determination aka the r^2 value
 # r^2 = True
 r_squared = linear.score(X_test, Y_test)
-
+#r_squared = r2_score(X_test, Y_test)
 
 print("\nr_squared(r^2): ", r_squared, "\n")
 
@@ -48,8 +48,6 @@ predictions = linear.predict(X_test)
 # print all the different dates' daily range, prediction, and actual value
 missPercents = []
 day_range_percents = []
-
-#@TODO turn into a function, run 30 times and average the values to lower variablilty from different trials
 
 for i in range(len(predictions)):
     # set up variables
@@ -91,11 +89,22 @@ sum_daily_ranges = allRanges / len(day_range_percents)
 print(f'Average daily range: {sum_daily_ranges}\n')
 
 
+
+
+
+r_squared = r2_score(Y_test, predictions)
+print("\n\n\n\n\n\n r_squared = ", r_squared, "\n\n\n")
+
+
+
+
+
+
+
+
 header = ['Average Miss', 'Mean Absolute Error (MAE)', 'Average daily range']
 with open('filtered_data.csv', 'a', newline='') as f:
     writer = csv.writer(f)
-
-    #writer.writerow(header)
 
     # write the data
     csv_data = [average_miss, mean_absolute_error_percentage, sum_daily_ranges]
@@ -112,7 +121,6 @@ while True:
 
     if graph_input.lower() == 'p':
         plt.style.use('seaborn-whitegrid')
-        # import numpy as np
 
         fig = plt.figure()
         ax = plt.axes()
@@ -122,10 +130,8 @@ while True:
         plt.xlabel("Time (Days)")
         plt.ylabel("Price (USD)")
 
-
         list37 = []
 
-        # print(data[date[-37:]])
         for i in range(37):
             list37.append(i)
 
