@@ -48,6 +48,7 @@ predictions = linear.predict(X_test)
 # print all the different dates' daily range, prediction, and actual value
 missPercents = []
 day_range_percents = []
+r_squared_list = []
 
 for i in range(len(predictions)):
     # set up variables
@@ -56,6 +57,7 @@ for i in range(len(predictions)):
     miss = abs(predictions[i] - Y_test[i])
     rangeMiss = miss/day_range * 100
     predYtest = predictions[i] / Y_test[i] * 100
+    r_squared = r2_score(Y_test, predictions)
 
     # print out all relevant metrics for each individual day
     print(f"Prediction[{i}]: ", predictions[i],
@@ -70,49 +72,36 @@ for i in range(len(predictions)):
 
     missPercents.append(miss)
     day_range_percents.append(day_range_percent)
-
+    r_squared_list.append(r_squared)
 
 # get sum of |predictions - y_test|
 allMisses = 0
 allRanges = 0
+allR_squared = 0
 for i in range(len(missPercents)):
-    allMisses = missPercents[i] + allMisses
-    allRanges = day_range_percents[i] + allRanges
+    allMisses += missPercents[i]
+    allRanges += day_range_percents[i]
+    allR_squared += r_squared_list[i]
 
 average_miss = (allMisses / len(predictions)) * 100
 print("\naverage miss", average_miss, '%')
-# mean absolute error
-mean_absolute_error_percentage = (100 - allMisses / len(predictions) * 100)
-print("Mean Absolute Error (MAE): ", mean_absolute_error_percentage, '%', '\n')
-
+average_r_squared = allR_squared / len(predictions)
+print("Average of R^2 Values: ", average_r_squared)
 sum_daily_ranges = allRanges / len(day_range_percents)
 print(f'Average daily range: {sum_daily_ranges}\n')
 
 
-
-
-
-r_squared = r2_score(Y_test, predictions)
-print("\n\n\n\n\n\n r_squared = ", r_squared, "\n\n\n")
-
-
-
-
-
-
-
-
-header = ['Average Miss', 'Mean Absolute Error (MAE)', 'Average daily range']
+header = ['Average Miss', 'Average r^2', 'Average daily range']
 with open('filtered_data.csv', 'a', newline='') as f:
     writer = csv.writer(f)
 
     # write the data
-    csv_data = [average_miss, mean_absolute_error_percentage, sum_daily_ranges]
+    csv_data = [average_miss, average_r_squared, sum_daily_ranges]
     writer.writerow(csv_data)
 
 df2=pd.read_csv('filtered_data.csv')
 print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]), "%")
-print("average of ALL Mean Absolute Errors: ", df2['Mean Absolute Error (MAE)'].sum() / len(df2['Mean Absolute Error (MAE)']), "%")
+print("average of ALL r^2: ", df2['Average r^2'].sum() / len(df2['Average r^2']), "%")
 print("average of ALL Average Daily Ranges: ", df2['Average daily range'].sum() / len(df2['Average daily range']), "%")
 
 
