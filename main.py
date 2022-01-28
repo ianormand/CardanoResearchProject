@@ -21,7 +21,7 @@ X = np.array(data.drop([predict, date, "Close"], 1))
 Y = np.array(data[predict])
 
 
-# divide into 4 arrays each using only 10% of the data so it wont memorize anything
+# divide into 4 arrays, each using only 10% of the data, so it wont memorize anything
 X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X, Y, test_size=0.1)
 
 print("x_train shape: ", X_train.shape)
@@ -34,9 +34,7 @@ linear = linear_model.LinearRegression()
 print(linear)
 
 linear.fit(X_train, Y_train)
-# r^2 = True
 r_squared = linear.score(X_test, Y_test)
-#r_squared = r2_score(X_test, Y_test)
 
 print("\nr_squared(r^2): ", r_squared, "\n")
 
@@ -75,13 +73,9 @@ for i in range(len(predictions)):
     r_squared_list.append(r_squared)
 
 # get sum of |predictions - y_test|
-allMisses = 0
-allRanges = 0
-allR_squared = 0
-for i in range(len(missPercents)):
-    allMisses += missPercents[i]
-    allRanges += day_range_percents[i]
-    allR_squared += r_squared_list[i]
+allMisses = sum(missPercents)
+allRanges = sum(day_range_percents)
+allR_squared = sum(r_squared_list)
 
 average_miss = (allMisses / len(predictions)) * 100
 print("\naverage miss", average_miss, '%')
@@ -92,12 +86,15 @@ print(f'Average daily range: {sum_daily_ranges}\n')
 
 
 header = ['Average Miss', 'Average r^2', 'Average daily range']
-with open('filtered_data.csv', 'a', newline='') as f:
-    writer = csv.writer(f)
 
-    # write the data
-    csv_data = [average_miss, average_r_squared, sum_daily_ranges]
-    writer.writerow(csv_data)
+#ONLY USED FOR THE FIRST 30 TIMES
+
+# with open('filtered_data.csv', 'a', newline='') as f:
+#     writer = csv.writer(f)
+
+#     # write the data
+#     csv_data = [average_miss, average_r_squared, sum_daily_ranges]
+#     writer.writerow(csv_data)
 
 df2=pd.read_csv('filtered_data.csv')
 print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]), "%")
