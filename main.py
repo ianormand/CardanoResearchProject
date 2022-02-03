@@ -58,15 +58,12 @@ for i in range(len(predictions)):
     r_squared = r2_score(Y_test, predictions)
 
     # print out all relevant metrics for each individual day
-    print(f"Prediction[{i}]: ", predictions[i],
-          f"X_test[{i}]",  X_test[i],
-          f"Y_test[{i}]", Y_test[i],
-          "\n",
-          "daily range = ", day_range,
-          'or', day_range_percent, '%',
-          "\n",
-          "miss = ", miss, 'or', 100 - predYtest, '%',
-          "\nPrediction/Y_test: ", predYtest, '%')
+    print(f"Prediction[{i}]: {predictions[i]}",
+          f"X_test[{i}]  {X_test[i]}",
+          f"Y_test[{i}] {Y_test[i]}\n",
+          f"daily range = {day_range} or {day_range_percent}%\n",
+          f"miss = {miss} or, {100 - predYtest}%\n",
+          f"Prediction/Y_test: {predYtest}%")
 
     missPercents.append(miss)
     day_range_percents.append(day_range_percent)
@@ -78,9 +75,9 @@ allRanges = sum(day_range_percents)
 allR_squared = sum(r_squared_list)
 
 average_miss = (allMisses / len(predictions)) * 100
-print("\naverage miss", average_miss, '%')
+print(f'\naverage miss {average_miss} %')
 average_r_squared = allR_squared / len(predictions)
-print("Average of R^2 Values: ", average_r_squared)
+print(f"Average of R^2 Values: {average_r_squared}")
 sum_daily_ranges = allRanges / len(day_range_percents)
 print(f'Average daily range: {sum_daily_ranges}\n')
 
@@ -97,9 +94,9 @@ header = ['Average Miss', 'Average r^2', 'Average daily range']
 #     writer.writerow(csv_data)
 
 df2=pd.read_csv('filtered_data.csv')
-print("average of ALL Average Misses: ", df2['Average Miss'].sum() / len(df2["Average Miss"]), "%")
-print("average of ALL r^2: ", df2['Average r^2'].sum() / len(df2['Average r^2']), "%")
-print("average of ALL Average Daily Ranges: ", df2['Average daily range'].sum() / len(df2['Average daily range']), "%")
+print(f"average of ALL Average Misses: {df2['Average Miss'].sum() / len(df2['Average Miss'])}%")
+print(f"average of ALL r^2: {df2['Average r^2'].sum() / len(df2['Average r^2'])}%")
+print(f"average of ALL Average Daily Ranges: {df2['Average daily range'].sum() / len(df2['Average daily range'])}%")
 
 
 while True:
@@ -154,6 +151,12 @@ while True:
         plt.show()
     elif graph_input == 'q':
         quit()
+    elif graph_input.lower() == 'scatter':
+        pass
+    elif graph_input.lower() == 'dotplot':
+        pass
+    elif graph_input.lower() == 'days range plot':
+        pass 
     else:
         continue
     continue
