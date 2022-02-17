@@ -1,5 +1,3 @@
-from os import write
-from csv import writer
 import numpy as np
 import pandas as pd
 from sklearn import linear_model
@@ -24,22 +22,11 @@ Y = np.array(data[predict])
 # divide into 4 arrays, each using only 10% of the data, so it wont memorize anything
 X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X, Y, test_size=0.1)
 
-print("x_train shape: ", X_train.shape)
-print("y_train.shape: ", Y_train.shape)
-print("X_test.shape: ", X_test.shape)
-print("y_test.shape: ", Y_test.shape)
-
-
 linear = linear_model.LinearRegression()
 print(linear)
 
 linear.fit(X_train, Y_train)
 r_squared = linear.score(X_test, Y_test)
-
-print("\nr_squared(r^2): ", r_squared, "\n")
-
-print('Coefficient: \n', linear.coef_)
-print('\nIntercept (b): \n', linear.intercept_, '\n')
 
 predictions = linear.predict(X_test)
 
