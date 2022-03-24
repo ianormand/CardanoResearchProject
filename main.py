@@ -21,6 +21,7 @@ Y = np.array(data[predict])
 
 # divide into 4 arrays, each using only 10% of the data, so it wont memorize anything
 X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X, Y, test_size=0.1)
+print(X_train.shape, X_test.shape, Y_train.shape, Y_test.shape)
 
 linear = linear_model.LinearRegression()
 print(linear)
@@ -81,9 +82,15 @@ header = ['Average Miss', 'Average r^2', 'Average daily range']
 #     writer.writerow(csv_data)
 
 df2=pd.read_csv('filtered_data.csv')
-print(f"average of ALL Average Misses: {df2['Average Miss'].sum() / len(df2['Average Miss'])}%")
+averageofallaveragemisses = df2['Average Miss'].sum() / len(df2['Average Miss'])
+averageofallaveragedailyranges = df2['Average daily range'].sum() / len(df2['Average daily range'])
+print(f"average of ALL Average Misses: {averageofallaveragemisses}%")
 print(f"average of ALL r^2: {df2['Average r^2'].sum() / len(df2['Average r^2'])}%")
-print(f"average of ALL Average Daily Ranges: {df2['Average daily range'].sum() / len(df2['Average daily range'])}%")
+print(f"average of ALL Average Daily Ranges: {averageofallaveragedailyranges}%")
+
+print(f"\nLowest of ALl Average Misses: {df2['Average Miss'].min()}")
+
+print(f"missComparedToRange: {averageofallaveragemisses / averageofallaveragedailyranges}")
 
 
 while True:
@@ -95,7 +102,7 @@ while True:
         fig = plt.figure()
         ax = plt.axes()
 
-        plt.title("Red = Machine Learning Model's Predictions; Blue = Real Time Prices")
+        plt.title("Red = Machine Learning Model's Predictions; Blue = actual price 24 hours later")
 
         plt.xlabel("Time (Days)")
         plt.ylabel("Price (USD)")
@@ -138,8 +145,24 @@ while True:
         plt.show()
     elif graph_input == 'q':
         quit()
-    elif graph_input.lower() == 'scatter':
-        pass
+    elif graph_input.lower() == 'v':
+        fig = plt.figure()
+        ax = plt.axes()
+
+        plt.title("Unproccessed Input Data (364 days)")
+
+        plt.xlabel("Time (Days)")
+        plt.ylabel("Trading Volume")
+
+        x = np.array(data[date])
+        y = np.array(data["Volume"])
+
+        ax.plot(x, y)
+
+        plt.plot(x, y)
+
+        plt.show()
+
     elif graph_input.lower() == 'dotplot':
         pass
     elif graph_input.lower() == 'days range plot':
